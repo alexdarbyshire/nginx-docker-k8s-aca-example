@@ -42,7 +42,7 @@ tilt up
 Access: http://localhost:8080
 
 ### Azure Container Apps
-Deploy via Azure CLI or portal. The container automatically detects ACA environment variables.
+Batteries not included for ACA deployment. To see it in action deploy a container app environment with three containers matching the examples.
 
 ## Requirements
 
