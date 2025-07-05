@@ -1,0 +1,22 @@
+services:
+  nginx:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      - ENVIRONMENT=local
+    #If only docker compose, we would use this to make sure services were available when nginx comes up
+    # depends_on:
+    #   - frontend
+    #   - api
+
+#Use two different http hello world images so we can verify it works as expected
+  frontend:
+    image: tutum/hello-world 
+    container_name: my-rg-local-frontend
+    depends_on:
+      - nginx #To demonstrate that nginx no longer fails fast on upstream hosts not available, we intentionally make the frontend come up after nginx
+
+  api:
+    image: lmmendes/http-hello-world
+    container_name: my-rg-local-api

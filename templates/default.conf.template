@@ -1,0 +1,22 @@
+resolver ${NGINX_LOCAL_RESOLVERS} valid=10s ipv6=off; #Set resolver as derived by native entrypoint script parsing /etc/resolv.conf, set a short 10 second expiry to better handle containers being recreated with different IPsdock
+
+server {
+    listen 80;
+    server_name _;
+
+    # Common proxy headers (required by Azure Container Apps)
+    proxy_ssl_server_name on;
+    proxy_http_version 1.1;
+
+    location / {
+        set $frontend_upstream "my-rg-${ENVIRONMENT}-frontend${DOMAIN_SUFFIX}";
+        proxy_pass ${UPSTREAM_PROTOCOL}://$frontend_upstream;
+    }
+
+    location /api {
+        set $api_upstream "my-rg-${ENVIRONMENT}-api${DOMAIN_SUFFIX}";
+        proxy_pass ${UPSTREAM_PROTOCOL}://$api_upstream/;
+    }
+
+    
+}
