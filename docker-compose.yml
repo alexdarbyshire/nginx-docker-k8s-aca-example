@@ -12,7 +12,7 @@ services:
 
 #Use two different http hello world images so we can verify it works as expected
   frontend:
-    image: tutum/hello-world 
+    image: strm/helloworld-http 
     container_name: my-rg-local-frontend
     depends_on:
       - nginx #To demonstrate that nginx no longer fails fast on upstream hosts not available, we intentionally make the frontend come up after nginx
