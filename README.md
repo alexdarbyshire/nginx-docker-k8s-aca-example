@@ -54,8 +54,13 @@ Batteries not included for ACA deployment. To see it in action deploy a containe
 
 1. **Environment Detection**: The entrypoint script [`17-detect-k8s-and-aca.sh`](docker-entrypoint.d/17-detect-k8s-and-aca.sh) examines `/etc/resolv.conf` and environment variables
 2. **Dynamic Configuration**: Sets `DOMAIN_SUFFIX` and `UPSTREAM_PROTOCOL` based on detected environment
-3. **Template Processing**: nginx processes the template with environment-specific values
+3. **Template Processing**: nginx processes the template with environment-specific values, constructing hostnames like `my-rg-${ENVIRONMENT}-frontend${DOMAIN_SUFFIX}`
 4. **Service Discovery**: nginx resolves upstreams using the appropriate naming convention
+
+**Key Environment Variables:**
+- `ENVIRONMENT`: Set per deployment (e.g., "local") to construct base hostname
+- `DOMAIN_SUFFIX`: Dynamically detected (empty for Docker, `.default.svc.cluster.local` for K8s, `.internal.{env-suffix}` for ACA)
+- `UPSTREAM_PROTOCOL`: Set to `http` or `https` based on environment capabilities
 
 ## License
 
